@@ -1,0 +1,116 @@
+CREATE TABLE IF NOT EXISTS perguntas (
+  id_pergunta int(11) unsigned NOT NULL AUTO_INCREMENT,
+  pk_id_user int(11) unsigned NOT NULL,
+  pk_id_tema int(11) unsigned NOT NULL,
+  pk_id_resposta int(11) unsigned NOT NULL,
+  pergunta varchar(255) NOT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (id_pergunta),
+  CONSTRAINT pergunta_id_user_fk FOREIGN KEY (pk_id_user) REFERENCES users (id_user),
+  CONSTRAINT pergunta_id_tema_fk FOREIGN KEY (pk_id_tema) REFERENCES temas (id_tema),
+  CONSTRAINT pergunta_id_resposta_fk FOREIGN KEY (pk_id_resposta) REFERENCES respostas (id_resposta) 
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+DROP TABLE users
+
+SELECT * FROM users
+
+INSERT INTO users VALUES (1, 'Maria', 'dbmaria@fatec.com', '123')
+
+
+CREATE TABLE IF NOT EXISTS temas (
+  `id_tema` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tema` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_tema`),
+   KEY `tema_id_user_fk` (`id_user`),
+  CONSTRAINT `tema_id_user_fk` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+INSERT INTO temas (tema) VALUES ('MariaDB')
+SELECT * FROM temas
+UPDATE temas SET tema = 'DBMaria' WHERE tema = 'MariaDB'
+
+CREATE TABLE IF NOT EXISTS perguntas (
+  `id_pergunta` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) unsigned NOT NULL,
+  `id_tema` int(11) unsigned NOT NULL,
+  `pergunta` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_pergunta`),
+  KEY `pergunta_id_tema_fk` (`id_tema`),
+  CONSTRAINT `pergunta_id_tema_fk` FOREIGN KEY (`id_tema`) REFERENCES `temas` (`id_tema`),
+  KEY `pergunta_id_user_fk` (`id_user`),
+  CONSTRAINT `pergunta_id_user_fk` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+INSERT INTO perguntas (id_tema, pergunta) VALUES (5, 'Quando é o vestibular?')
+
+
+SELECT * FROM perguntas
+
+CREATE TABLE IF NOT EXISTS respostas (
+  `id_resposta` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_pergunta` int(11) unsigned NOT NULL,
+  `resposta` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_resposta`),
+  KEY `resposta_id_pergunta_fk` (`id_pergunta`),
+  CONSTRAINT `resposta_id_pergunta_fk` FOREIGN KEY (`id_pergunta`) REFERENCES `perguntas` (`id_pergunta`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+INSERT INTO respostas (id_pergunta, resposta) VALUES (5, 'Em dezembro')
+
+SELECT * FROM respostas
+
+
+=============================================
+
+USE fatecita_faq
+
+CREATE TABLE IF NOT EXISTS users (
+   id_user INT(11) unsigned NOT NULL AUTO_INCREMENT,
+   nome varchar(255) NOT NULL,
+   email varchar(255) UNIQUE NOT NULL,
+	senha varchar(255) NOT NULL,
+  PRIMARY KEY (id_user)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+CREATE TABLE IF NOT EXISTS temas (
+  id_tema int(11) unsigned NOT NULL AUTO_INCREMENT, 
+  pk_id_user int(11) unsigned NOT NULL, `tema` varchar(255) NOT NULL, 
+  created_at timestamp NOT NULL DEFAULT current_timestamp(), 
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(), 
+  PRIMARY KEY (id_tema), 
+  CONSTRAINT tema_id_user_fk FOREIGN KEY (pk_id_user) REFERENCES users (id_user) ) 
+  ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+  
+CREATE TABLE IF NOT EXISTS respostas (
+ `id_resposta` int(11) unsigned NOT NULL AUTO_INCREMENT, 
+ `pk_id_user` int(11) unsigned NOT NULL, 
+ `resposta` varchar(255) NOT NULL, 
+ `created_at` timestamp NOT NULL DEFAULT current_timestamp(), 
+ `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(), 
+ PRIMARY KEY (`id_resposta`), 
+ CONSTRAINT `resposta_id_user_fk` FOREIGN KEY (`pk_id_user`) REFERENCES `users` (`id_user`) 
+ ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE IF NOT EXISTS perguntas (
+  id_pergunta int(11) unsigned NOT NULL AUTO_INCREMENT,
+  pk_id_user int(11) unsigned NOT NULL,
+  pk_id_tema int(11) unsigned NOT NULL,
+  pk_id_resposta int(11) unsigned NOT NULL,
+  pergunta varchar(255) NOT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (id_pergunta),
+  CONSTRAINT pergunta_id_user_fk FOREIGN KEY (pk_id_user) REFERENCES users (id_user),
+  CONSTRAINT pergunta_id_tema_fk FOREIGN KEY (pk_id_tema) REFERENCES temas (id_tema),
+  CONSTRAINT pergunta_id_resposta_fk FOREIGN KEY (pk_id_resposta) REFERENCES respostas (id_resposta) 
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
