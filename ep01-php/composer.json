@@ -1,0 +1,22 @@
+{
+    "name": "triliam/ep01-php",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Triliam",
+            "email": "taisbuenovidotto@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Source\\": "source/"
+        },
+    "files": [
+        "source/Config.php"
+        ]
+    },
+    
+    "require": {
+        "coffeecode/datalayer": "2.0.*"}
+}
